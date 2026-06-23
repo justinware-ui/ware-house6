@@ -4,6 +4,6 @@ export const sections: SectionDefinition[] = [
   {
     id: 'dashboard',
     label: 'Dashboard',
-    htmlPath: '/sections/dashboard/index.html',
+    htmlPath: 'sections/dashboard/index.html',
   },
 ]
