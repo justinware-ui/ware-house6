@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Inject Suggested Demos carousel under Metrics in dashboard HTML."""
 
+import random
 from pathlib import Path
 
 DASHBOARD = Path(__file__).resolve().parents[1] / "public/sections/dashboard/index.html"
@@ -8,26 +9,22 @@ MARKER = "data-testid=suggestions-section"
 INSERT_AFTER = "data-testid=metrics-grid"
 
 CARDS = [
-    {"title": "Quick Start Guide", "image": "quick-start.png", "icon": "dynamic-tour.svg", "favorite": True, "avatar": "AZ", "avatar_bg": "#d1e5ff", "date": "05/09/26"},
-    {"title": "Account Setup", "image": "account-setup.png", "icon": "demo-personalized.svg", "favorite": True, "avatar": "JW", "avatar_bg": "#ffdfcf", "date": "05/09/26"},
-    {"title": "Data Export Guide", "image": "data-export.png", "icon": "demo-single.svg", "favorite": False, "avatar": "AZ", "avatar_bg": "#ffdfcf", "date": "05/09/26"},
-    {"title": "First Login Experience", "image": "first-login-exp.png", "icon": "flow.svg", "favorite": True, "avatar": "SM", "avatar_bg": "#d1e5ff", "date": "05/09/26"},
-    {"title": "Onboarding Flow", "image": "onboarding-flow.png", "icon": "flow.svg", "favorite": False, "avatar": "MC", "avatar_bg": "#d1e5ff", "date": "05/09/26"},
-    {"title": "Feature Highlights", "image": "feature-highlights.png", "icon": "flow.svg", "favorite": True, "avatar": "AZ", "avatar_bg": "#ffdfcf", "date": "05/09/26"},
-    {"title": "Enterprise SSO Walkthrough", "image": "data-export.png", "icon": "flow.svg", "favorite": True, "avatar": "RK", "avatar_bg": "#d1e5ff", "date": "04/18/26"},
-    {"title": "Pipeline Review Demo", "image": "account-setup.png", "icon": "demo-personalized.svg", "favorite": False, "avatar": "LT", "avatar_bg": "#ffdfcf", "date": "04/02/26"},
-    {"title": "Competitive Battlecard", "image": "first-login-exp.png", "icon": "demo-single.svg", "favorite": True, "avatar": "NP", "avatar_bg": "#ffdfcf", "date": "03/21/26"},
-    {"title": "Customer Success Toolkit", "image": "onboarding-flow.png", "icon": "dynamic-tour.svg", "favorite": False, "avatar": "EB", "avatar_bg": "#d1e5ff", "date": "03/14/26"},
-    {"title": "QBR Executive Summary", "image": "feature-highlights.png", "icon": "demo-personalized.svg", "favorite": True, "avatar": "CM", "avatar_bg": "#ffdfcf", "date": "02/28/26"},
-    {"title": "Partner Enablement Tour", "image": "quick-start.png", "icon": "flow.svg", "favorite": False, "avatar": "DG", "avatar_bg": "#d1e5ff", "date": "02/10/26"},
+    {"title": "Quick Start Guide", "persona_title": "Sales Director", "deal_name": "NovaTech Systems", "image": "quick-start.png", "icon": "dynamic-tour.svg", "favorite": True, "avatar": "AZ", "avatar_bg": "#d1e5ff", "date": "05/09/26"},
+    {"title": "Account Setup", "persona_title": "VP of Marketing", "deal_name": "Brightpath Analytics", "image": "account-setup.png", "icon": "demo-personalized.svg", "favorite": True, "avatar": "JW", "avatar_bg": "#ffdfcf", "date": "05/09/26"},
+    {"title": "Data Export Guide", "persona_title": "Chief Financial Officer", "deal_name": "Meridian Health Co.", "image": "data-export.png", "icon": "demo-single.svg", "favorite": False, "avatar": "AZ", "avatar_bg": "#ffdfcf", "date": "05/09/26"},
+    {"title": "First Login Experience", "persona_title": "IT Administrator", "deal_name": "Summit Logistics", "image": "first-login-exp.png", "icon": "flow.svg", "favorite": True, "avatar": "SM", "avatar_bg": "#d1e5ff", "date": "05/09/26"},
+    {"title": "Onboarding Flow", "persona_title": "Customer Success Manager", "deal_name": "Vertex Pharmaceuticals", "image": "onboarding-flow.png", "icon": "flow.svg", "favorite": False, "avatar": "MC", "avatar_bg": "#d1e5ff", "date": "05/09/26"},
+    {"title": "Feature Highlights", "persona_title": "Product Manager", "deal_name": "Cascade Financial", "image": "feature-highlights.png", "icon": "flow.svg", "favorite": True, "avatar": "AZ", "avatar_bg": "#ffdfcf", "date": "05/09/26"},
+    {"title": "Enterprise SSO Walkthrough", "persona_title": "Security Engineer", "deal_name": "Ironwood Manufacturing", "image": "data-export.png", "icon": "flow.svg", "favorite": True, "avatar": "RK", "avatar_bg": "#d1e5ff", "date": "04/18/26"},
+    {"title": "Pipeline Review Demo", "persona_title": "Revenue Operations Lead", "deal_name": "Silverline Retail", "image": "account-setup.png", "icon": "demo-personalized.svg", "favorite": False, "avatar": "LT", "avatar_bg": "#ffdfcf", "date": "04/02/26"},
+    {"title": "Competitive Battlecard", "persona_title": "Competitive Intelligence Analyst", "deal_name": "Horizon Energy", "image": "first-login-exp.png", "icon": "demo-single.svg", "favorite": True, "avatar": "NP", "avatar_bg": "#ffdfcf", "date": "03/21/26"},
+    {"title": "Customer Success Toolkit", "persona_title": "Head of Customer Success", "deal_name": "Pinnacle Software", "image": "onboarding-flow.png", "icon": "dynamic-tour.svg", "favorite": False, "avatar": "EB", "avatar_bg": "#d1e5ff", "date": "03/14/26"},
+    {"title": "QBR Executive Summary", "persona_title": "Chief Revenue Officer", "deal_name": "Atlas Global Partners", "image": "feature-highlights.png", "icon": "demo-personalized.svg", "favorite": True, "avatar": "CM", "avatar_bg": "#ffdfcf", "date": "02/28/26"},
+    {"title": "Partner Enablement Tour", "persona_title": "Channel Partner Manager", "deal_name": "Bluewave Consulting", "image": "quick-start.png", "icon": "flow.svg", "favorite": False, "avatar": "DG", "avatar_bg": "#d1e5ff", "date": "02/10/26"},
 ]
 
 FAVORITE_ICON = (
     '<img src="./assets/suggestions/favorite.svg" width="32" height="32" alt="" aria-hidden="true" />'
-)
-
-DEMO_ICON = (
-    '<img src="./assets/suggestions/{icon}" width="24" height="24" alt="" aria-hidden="true" />'
 )
 
 SEND_ICON = (
@@ -61,24 +58,57 @@ FILTER_CHECKMARK = """
 </svg>
 </div>"""
 
-FILTERS = ["Trending", "Most Viewed", "Most Shared"]
+FILTERS = [
+    {"label": "Popular", "key": "popular"},
+    {"label": "Persona", "key": "persona"},
+    {"label": "Deal", "key": "deal"},
+]
+
+DEAL_IMAGES = [
+    "deal-frame-2666.svg",
+    "deal-frame-2667.svg",
+    "deal-mask.svg",
+    "deal-mask-1.svg",
+    "deal-mask-2.svg",
+]
 
 
-def filter_button(label: str, *, selected: bool = False) -> str:
+def build_persona_images() -> list[str]:
+    pool = list(dict.fromkeys(card["image"] for card in CARDS))
+    shuffled = pool.copy()
+    random.Random(7).shuffle(shuffled)
+    persona: list[str] = []
+    for i, card in enumerate(CARDS):
+        default = card["image"]
+        for j in range(len(shuffled)):
+            pick = shuffled[(i + j) % len(shuffled)]
+            if pick != default:
+                persona.append(pick)
+                break
+        else:
+            persona.append(shuffled[i % len(shuffled)])
+    return persona
+
+
+PERSONA_IMAGES = build_persona_images()
+
+
+def filter_button(label: str, *, key: str, selected: bool = False) -> str:
     classes = FILTER_BTN
     if selected:
         classes += f" {FILTER_SELECTED}"
     selected_attr = "true" if selected else "false"
     return (
         f'<button type="button" class="{classes}" role="tab" '
-        f'aria-selected="{selected_attr}">{FILTER_CHECKMARK}'
+        f'data-wh6-filter="{key}" aria-selected="{selected_attr}">{FILTER_CHECKMARK}'
         f'<span class="_children_46m2g_44UiKit_1_8_2">{label}</span></button>'
     )
 
 
 def filters_html() -> str:
     buttons = "".join(
-        filter_button(label, selected=i == 0) for i, label in enumerate(FILTERS)
+        filter_button(f["label"], key=f["key"], selected=i == 0)
+        for i, f in enumerate(FILTERS)
     )
     return (
         '<div class="_container_12rlc_1UiKit_1_8_2 _small_12rlc_14UiKit_1_8_2" '
@@ -87,24 +117,28 @@ def filters_html() -> str:
     )
 
 
-def card_html(card: dict) -> str:
+def card_html(card: dict, index: int) -> str:
     fav = (
         f'<div class="wh6-suggestions__favorite">{FAVORITE_ICON}</div>'
         if card["favorite"]
         else ""
     )
+    default_thumb = f"./assets/suggestions/{card['image']}"
+    default_icon = f"./assets/suggestions/{card['icon']}"
+    deal_thumb = f"./assets/suggestions/{DEAL_IMAGES[index % len(DEAL_IMAGES)]}"
+    persona_thumb = f"./assets/suggestions/{PERSONA_IMAGES[index]}"
     return f"""
 <article class="wh6-suggestions__card">
   <div class="wh6-suggestions__thumb">
     <div class="wh6-suggestions__thumb-image">
-      <img src="./assets/suggestions/{card['image']}" alt="{card['title']} preview" />
+      <img class="wh6-suggestions__thumb-img" src="{default_thumb}" data-default-src="{default_thumb}" data-persona-src="{persona_thumb}" data-deal-src="{deal_thumb}" alt="{card['title']} preview" />
     </div>
     {fav}
     <div class="wh6-suggestions__avatar" style="background:{card['avatar_bg']}">{card['avatar']}</div>
   </div>
   <div class="wh6-suggestions__body">
-    <div class="wh6-suggestions__type">{DEMO_ICON.format(icon=card['icon'])}</div>
-    <h3 class="wh6-suggestions__card-title">{card['title']}</h3>
+    <div class="wh6-suggestions__type"><img class="wh6-suggestions__type-icon" src="{default_icon}" data-default-src="{default_icon}" width="24" height="24" alt="" aria-hidden="true" /></div>
+    <h3 class="wh6-suggestions__card-title" data-default-title="{card['title']}" data-persona-title="{card['persona_title']}" data-deal-title="{card['deal_name']}">{card['title']}</h3>
     <div class="wh6-suggestions__footer">
       <span class="wh6-suggestions__date">{card['date']}</span>
       <div class="wh6-suggestions__actions">
@@ -117,7 +151,7 @@ def card_html(card: dict) -> str:
 
 
 def build_section() -> str:
-    cards = "".join(card_html(c) for c in CARDS)
+    cards = "".join(card_html(c, i) for i, c in enumerate(CARDS))
     return f"""
 <style>
 .wh6-suggestions {{
@@ -407,6 +441,41 @@ def build_section() -> str:
   var filters = Array.prototype.slice.call(
     section.querySelectorAll('[data-testid="suggestions-filters"] button')
   );
+  var FOLDER_ICON = './assets/suggestions/folder.svg';
+
+  function applyFilter(key) {{
+    cards.forEach(function (card) {{
+      var thumbImg = card.querySelector('.wh6-suggestions__thumb-img');
+      var typeImg = card.querySelector('.wh6-suggestions__type-icon');
+      var titleEl = card.querySelector('.wh6-suggestions__card-title');
+      if (!thumbImg || !typeImg) return;
+
+      if (key === 'deal') {{
+        typeImg.src = FOLDER_ICON;
+        thumbImg.src = thumbImg.getAttribute('data-deal-src') || thumbImg.getAttribute('data-default-src');
+        if (titleEl) {{
+          titleEl.textContent = titleEl.getAttribute('data-deal-title') || titleEl.getAttribute('data-default-title');
+        }}
+        return;
+      }}
+
+      if (key === 'persona') {{
+        typeImg.src = typeImg.getAttribute('data-default-src');
+        thumbImg.src = thumbImg.getAttribute('data-persona-src') || thumbImg.getAttribute('data-default-src');
+        if (titleEl) {{
+          titleEl.textContent = titleEl.getAttribute('data-persona-title') || titleEl.getAttribute('data-default-title');
+        }}
+        return;
+      }}
+
+      typeImg.src = typeImg.getAttribute('data-default-src');
+      thumbImg.src = thumbImg.getAttribute('data-default-src');
+      if (titleEl) {{
+        titleEl.textContent = titleEl.getAttribute('data-default-title');
+      }}
+    }});
+  }}
+
   filters.forEach(function (filter) {{
     filter.addEventListener('click', function () {{
       filters.forEach(function (btn) {{
@@ -415,6 +484,7 @@ def build_section() -> str:
       }});
       filter.classList.add('_optionSelected_1m63n_37UiKit_1_8_2');
       filter.setAttribute('aria-selected', 'true');
+      applyFilter(filter.getAttribute('data-wh6-filter') || 'popular');
     }});
   }});
 }})();

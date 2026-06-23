@@ -56,18 +56,80 @@ def build_block() -> str:
   transition: none;
 }}
 .wh6-dash-drop-placeholder {{
+  align-items: center;
   background: rgba(252, 104, 57, 0.06);
   border: 2px dashed #fc6839;
   border-radius: 32px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
   margin: 0;
+  padding: 24px 32px;
   transition: height 0.2s ease, opacity 0.2s ease;
+}}
+.wh6-dash-drop-placeholder__text {{
+  color: #6f6f6f;
+  font-family: Poppins, sans-serif;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 420px;
+  text-align: center;
+}}
+.wh6-dash-drop-placeholder__text--single-line {{
+  max-width: none;
+  white-space: nowrap;
 }}
 </style>
 <script {MARKER}>
 (function () {{
   var STORAGE_KEY = "wh6-dashboard-order";
   var IDS = {ids_json};
+  var SINGLE_LINE_PHRASES = [
+    "A moment of silence for the widget that used to live here.",
+    "Moving on up! Or down, whichever works best for you."
+  ];
+  var PLACEHOLDER_OPTIONS = [
+    {{ text: SINGLE_LINE_PHRASES[0], weight: 4 }},
+    {{ text: "This isn't goodbye, it's see you later.", weight: 4 }},
+    {{ text: "Insert clever widget here.", weight: 1 }},
+    {{ text: "Drag something here to stop the loneliness.", weight: 4 }},
+    {{ text: "It was fun while it lasted.", weight: 4 }},
+    {{ text: "Moving on up! Or down, whichever works best for you.", weight: 4 }}
+  ];
+
+  function pickPlaceholderPhrase() {{
+    var total = PLACEHOLDER_OPTIONS.reduce(function (sum, option) {{
+      return sum + option.weight;
+    }}, 0);
+    var roll = Math.random() * total;
+
+    for (var i = 0; i < PLACEHOLDER_OPTIONS.length; i++) {{
+      roll -= PLACEHOLDER_OPTIONS[i].weight;
+      if (roll <= 0) return PLACEHOLDER_OPTIONS[i].text;
+    }}
+
+    return PLACEHOLDER_OPTIONS[0].text;
+  }}
+
+  function createDropPlaceholder(height) {{
+    var node = document.createElement("div");
+    node.className = "wh6-dash-drop-placeholder";
+    node.style.height = height + "px";
+
+    var text = document.createElement("p");
+    var phrase = pickPlaceholderPhrase();
+    text.className = "wh6-dash-drop-placeholder__text";
+    if (SINGLE_LINE_PHRASES.indexOf(phrase) !== -1) {{
+      text.className += " wh6-dash-drop-placeholder__text--single-line";
+    }}
+    text.textContent = phrase;
+    node.appendChild(text);
+
+    return node;
+  }}
 
   function init() {{
     var app = document.querySelector('[data-testid="app-component"]')
@@ -150,9 +212,7 @@ def build_block() -> str:
       var rect = item.getBoundingClientRect();
       offsetY = event.clientY - rect.top;
 
-      placeholder = document.createElement("div");
-      placeholder.className = "wh6-dash-drop-placeholder";
-      placeholder.style.height = rect.height + "px";
+      placeholder = createDropPlaceholder(rect.height);
       item.parentNode.insertBefore(placeholder, item);
 
       item.style.position = "fixed";
